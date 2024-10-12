@@ -3,6 +3,7 @@ const cors = require('cors');
 const connectDB = require('./Config/db');
 const userRoutes = require('./Routes/userRoutes');
 const codeRoutes = require('./Routes/codeRoutes');
+const projectRoutes = require('./Routes/projectRoutes');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => res.send("Hello"));
 app.use('/signup', userRoutes);
 app.use('/login', userRoutes);
 app.use('/codes', codeRoutes);
+app.use('/projects', projectRoutes); // Updated route for projects
 
 // Start the server
 app.listen(3000, () => {
