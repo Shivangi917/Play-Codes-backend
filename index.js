@@ -5,6 +5,7 @@ const connectDB = require('./Config/db');
 const userRoutes = require('./Routes/userRoutes');
 const codeRoutes = require('./Routes/codeRoutes');
 const projectRoutes = require('./Routes/projectRoutes');
+const { signup, login } = require('./Controllers/userController');
 
 const app = express();
 
@@ -21,21 +22,9 @@ connectDB();
 app.get('/', (req, res) => res.send("Hello"));
 
 // Routes
-app.use('/signup', userRoutes);
-app.use('/login', userRoutes);
+app.use('/signup', signup);
+app.use('/login', login);
 app.use('/codes', codeRoutes);
-app.get('/post', (req, res) => {
-    const projects = [
-      {
-        _id: '1',
-        user: { name: 'Alice' },
-        description: 'Project 1 description',
-        image: 'Images/1728747684751-eb11bb47280327763acbe5cd6c91d590.jpg', // Adjusted this to your file name
-      },
-      // Add more project objects as needed
-    ];
-    res.json(projects);
-  });
 app.use('/post', projectRoutes);
 
 // Start the server
