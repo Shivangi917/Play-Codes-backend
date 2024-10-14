@@ -6,6 +6,7 @@ const userRoutes = require('./Routes/userRoutes');
 const codeRoutes = require('./Routes/codeRoutes');
 const projectRoutes = require('./Routes/projectRoutes');
 const { signup, login } = require('./Controllers/userController');
+const search = require('./Routes/searchRoutes');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/signup', signup);
 app.use('/login', login);
 app.use('/codes', codeRoutes);
 app.use('/post', projectRoutes);
+app.use('/search', search);
 
 // Start the server
 app.listen(3000, () => {
