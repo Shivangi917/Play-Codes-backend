@@ -1,8 +1,8 @@
-const ProjectModel = require('../Models/Project');
-const UserModel = require('../Models/User');
-const path = require('path');
+import ProjectModel from '../Models/Project.js';
+import UserModel from '../Models/User.js';
+import path from 'path';
 
-exports.postProject = async (req, res) => {
+export const postProject = async (req, res) => {
     const { description, useremail } = req.body; // Include useremail here
     console.log("Received description:", description);
     console.log("Received useremail:", useremail);
@@ -35,7 +35,7 @@ exports.postProject = async (req, res) => {
     }
 };
 
-exports.getProjects = async (req, res) => {
+export const getProjects = async (req, res) => {
     try {
         const projects = await ProjectModel.find().populate('user', 'name email');
         res.status(200).json(projects);

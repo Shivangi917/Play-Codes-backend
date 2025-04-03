@@ -1,35 +1,38 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const connectDB = require('./Config/db');
-const userRoutes = require('./Routes/userRoutes');
-const codeRoutes = require('./Routes/codeRoutes');
-const projectRoutes = require('./Routes/projectRoutes');
-const { signup, login } = require('./Controllers/userController');
-const search = require('./Routes/searchRoutes');
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+import connectDB from './Config/db.js';
+import userRoutes from './Routes/userRoutes.js';
+import codeRoutes from './Routes/codeRoutes.js';
+import projectRoutes from './Routes/projectRoutes.js';
+import search from './Routes/searchRoutes.js';
+
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT;
+
+// Fix for __dirname in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use('/Public', express.static(path.join(__dirname, 'Public')));
 
-// Middlewares
 app.use(express.json());
 app.use(cors());
 
-// Connect to MongoDB
 connectDB();
 
-// Basic route
 app.get('/', (req, res) => res.send("Hello"));
 
-// Routes
-app.use('/signup', signup);
-app.use('/login', login);
+app.use('/api/auth', userRoutes);
 app.use('/codes', codeRoutes);
 app.use('/post', projectRoutes);
 app.use('/search', search);
 
-// Start the server
-app.listen(3000, () => {
-    console.log('Server running on http://localhost:3000');
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
     description: { type: String, required: true },
@@ -6,4 +6,5 @@ const projectSchema = new mongoose.Schema({
     image: { type: String }, // Image path if uploaded
 });
 
-module.exports = mongoose.model('Project', projectSchema);
+const Project = mongoose.model('Project', projectSchema);
+export default Project;

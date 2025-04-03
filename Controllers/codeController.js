@@ -1,7 +1,7 @@
-const CodeModel = require('../Models/Code');
-const UserModel = require('../Models/User');
+import CodeModel from '../Models/Code.js';
+import UserModel from '../Models/User.js';
 
-exports.postCode = async (req, res) => {
+export const postCode = async (req, res) => {
     const { title, codeSnippet, description, useremail } = req.body;
     try {
         const user = await UserModel.findOne({ email: useremail });
@@ -22,7 +22,7 @@ exports.postCode = async (req, res) => {
     }
 };
 
-exports.getCodes = async (req, res) => {
+export const getCodes = async (req, res) => {
     try {
         const codes = await CodeModel.find().populate('user', 'name email');
         res.status(200).json(codes);

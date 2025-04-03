@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const codeSchema = new mongoose.Schema({
     title: { type: String, required: true },
@@ -7,4 +7,5 @@ const codeSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // Reference to User model
 });
 
-module.exports = mongoose.model('Code', codeSchema);
+const Code = mongoose.model('Code', codeSchema);
+export default Code;

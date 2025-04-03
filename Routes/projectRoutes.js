@@ -1,14 +1,18 @@
-const express = require('express');
-const { postProject, getProjects } = require('../Controllers/projectController');
-const multer = require('multer');
-const path = require('path');
+import express from 'express';
+import { postProject, getProjects } from '../Controllers/projectController.js';
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const router = express.Router();
+
+// Fix for __dirname in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const allowedTypes = /jpeg|jpg|png|gif/; // Allowed file types
 
 const fileFilter = (req, file, cb) => {
-    // Check if the file type matches the allowed types
     if (allowedTypes.test(file.mimetype)) {
         cb(null, true); // Accept the file
     } else {
@@ -27,10 +31,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-    fileFilter: fileFilter // Add fileFilter to multer configuration
+    fileFilter: fileFilter
 });
 
-router.post('/', upload.single('image'), postProject); // Match the function name here
+router.post('/', upload.single('image'), postProject);
 router.get('/', getProjects);
 
-module.exports = router;
+export default router;
