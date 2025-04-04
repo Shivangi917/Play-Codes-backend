@@ -3,6 +3,12 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { generateTokenAndSetCookie } from "../Utils/generateTokenAndSetCookie.js";
 import { sendVerificationEmail } from '../Config/nodeMailer.js';
+import cookieParser from 'cookie-parser';
+import express from 'express';
+
+const app = express();
+
+app.use(cookieParser())
 
 const generateVerificationCode = () => {
     return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit random code
@@ -94,13 +100,36 @@ export const login = async (req, res) => {
         if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-        res.json({ success: true, token, userId: user._id });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false, // set to true in production (HTTPS)
+            sameSite: 'Lax',
+          });
+          res.status(200).json({
+            success: true,
+            message: 'Login successful',
+            user: {
+                name: user.name,
+                email: user.email
+            }
+        });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-export const logout = async (req, res) => {
-    res.clearCookie("token");
-    res.status(200).json({ success: true, message: "User logged out successfully" });
+export const logout = (req, res) => {
+    res.clearCookie('token', {
+      httpOnly: true,
+      sameSite: 'Strict',
+      secure: true,
+    });
+    res.status(200).json({ message: 'Logged out successfully' });
 };
+
+export const getUser = (req, res) => {
+    const { name, email } = req.user;
+    res.json({ name, email });
+  };
+  
+  

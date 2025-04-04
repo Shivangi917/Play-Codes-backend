@@ -15,14 +15,16 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-// Fix for __dirname in ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use('/Public', express.static(path.join(__dirname, 'Public')));
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true                
+  }));
 
 connectDB();
 
@@ -32,6 +34,7 @@ app.use('/api/auth', userRoutes);
 app.use('/codes', codeRoutes);
 app.use('/post', projectRoutes);
 app.use('/search', search);
+app.use('/auth', userRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
