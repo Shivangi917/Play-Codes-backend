@@ -31,3 +31,16 @@ export const getCodes = async (req, res) => {
         res.status(500).json({ error: "Error fetching codes" });
     }
 };
+
+export const getUserCodes = async (req, res) => {
+    const useremail = req.params.useremail;
+    try {
+        const user = await UserModel.findOne({ email: useremail });
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const userCodes = await CodeModel.find({ user: user._id }).populate('user', 'name email');
+        res.json(userCodes);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching user-specific code snippets." });
+    }
+};
