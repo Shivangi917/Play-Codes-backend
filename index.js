@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 
 import connectDB from './Config/db.js';
 import userRoutes from './Routes/userRoutes.js';
@@ -21,6 +22,7 @@ const __dirname = path.dirname(__filename);
 app.use('/Public', express.static(path.join(__dirname, 'Public')));
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true                

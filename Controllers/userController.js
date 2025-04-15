@@ -102,12 +102,13 @@ export const login = async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false, // set to true in production (HTTPS)
+            secure: false,
             sameSite: 'Lax',
           });
           res.status(200).json({
             success: true,
             message: 'Login successful',
+            token,
             user: {
                 name: user.name,
                 email: user.email
@@ -130,6 +131,4 @@ export const logout = (req, res) => {
 export const getUser = (req, res) => {
     const { name, email } = req.user;
     res.json({ name, email });
-  };
-  
-  
+};
