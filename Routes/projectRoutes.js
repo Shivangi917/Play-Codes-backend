@@ -1,5 +1,5 @@
 import express from 'express';
-import { postProject, getProjects } from '../Controllers/projectController.js';
+import { postProject, getProjects, getUserProjects } from '../Controllers/projectController.js';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -36,5 +36,6 @@ const upload = multer({
 
 router.post('/', upload.single('image'), postProject);
 router.get('/', getProjects);
+router.get('/:useremail', getUserProjects);
 
 export default router;
