@@ -10,6 +10,7 @@ import userRoutes from './Routes/userRoutes.js';
 import codeRoutes from './Routes/codeRoutes.js';
 import projectRoutes from './Routes/projectRoutes.js';
 import search from './Routes/searchRoutes.js';
+import projectActivityRoutes from './Routes/projectActivityRoutes.js';
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use(cors({
     credentials: true                
   }));
 
+  
+
 connectDB();
 
 app.get('/', (req, res) => res.send("Hello"));
@@ -36,7 +39,7 @@ app.use('/api/auth', userRoutes);
 app.use('/codes', codeRoutes);
 app.use('/post', projectRoutes);
 app.use('/search', search);
-app.use('/auth', userRoutes);
+app.use('/projectActivity', projectActivityRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

@@ -34,7 +34,7 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-router.post('/', upload.single('image'), postProject);
+router.post('/', upload.array('images'), postProject);
 router.get('/', getProjects);
 router.get('/:useremail', getUserProjects);
 

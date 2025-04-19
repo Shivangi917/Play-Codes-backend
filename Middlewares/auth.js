@@ -24,7 +24,7 @@ const verifyUser = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "Not logged in" });
   }
-
+  
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
     req.user = decoded;
